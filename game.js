@@ -311,8 +311,8 @@ GraphGame = new (function(){
 		var g = this;
 		this.intervalId = setInterval(function(){
 			g.iterationCount++;
-			if(g.iterationCount % 100 == 0)
-				console.log(g.iterationCount);
+			//if(g.iterationCount % 100 == 0)
+				//console.log(g.iterationCount);
 			
 			if(g.maxIterations != null && g.iterationCount >= g.maxIterations){
 				clearInterval(g.intervalId);
