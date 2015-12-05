@@ -5,6 +5,7 @@ var PlayerFactory = require('./game').PlayerFactory;
 
 var SIZE = 500;
 var N_ITERATIONS = 500;
+var N_RUNS = 10;
 //var graph = GraphGame.ABModel(size);
 //var graph = GraphGame.DuplicationModel(size, 0.2);
 graph = GraphGame.MinimalModel(SIZE);
@@ -20,21 +21,17 @@ syncInit = function(){
 }
 
 
-function run(nRuns, T, S, finished){
+function run(nRuns, T, S, finished, sum){
 	var start = new Date().getTime();
 	
 	if(nRuns <= 0){
-		var C = 0;
-		if('C' in GraphGame.counts)
-			C = GraphGame.counts['C'];
-
-		var D = 0;
-		if('D' in GraphGame.counts)
-			D = GraphGame.counts['D'];
+		if(!results.hasOwnProperty(S) )
+			results[S] = {};
+		if(!results.hasOwnProperty(T) )
+			results[T] = {};
 		
-		var p = C / (C+D);
-		results[[T, S]] = p;
-		console.log(T + ", " + S + ": " + p)
+		results[S][T] = sum;
+		console.log(T + ", " + S + ": " + sum);
 
 		finished();
 		return;
@@ -67,9 +64,20 @@ function run(nRuns, T, S, finished){
 	GraphGame.start();
 	GraphGame.stop = function(){
 		end = new Date().getTime();
-		console.log( (end-start)/1000 );
+		//console.log( (end-start)/1000 );
 		
-		run(nRuns-1, T, S, finished);
+		var C = 0;
+		if('C' in GraphGame.counts)
+			C = GraphGame.counts['C'];
+
+		var D = 0;
+		if('D' in GraphGame.counts)
+			D = GraphGame.counts['D'];
+		
+		var p = C / (C+D);
+		
+		run(nRuns-1, T, S, finished, sum+p);
+
 	};
 }
 
@@ -78,17 +86,32 @@ function run(nRuns, T, S, finished){
 	}, 1);*/
 //}
 var points = []
+var d = 40;
 
-for(var s=-1; s<=1; s+=0.1)
-	for(var t=0; t<=2; t+=0.1)
-		points.push([t, s]);
+for(var s=0; s<=d; s++) // -1, 1
+	for(var t=0; t<=d; t++) // 0, 2
+		points.push([-1 + (t/d)*2, (s/d)*2]);
 
 
 results = {};
 function nextV(){
 	var v = points.shift()
 	if(v)
-		run(1, v[0], v[1], nextV);
+		run(N_RUNS, v[0], v[1], nextV, 0);
+	else{
+		for(var i in results)
+			for(var j in results[i])
+				results[i][j] /= N_RUNS;
+
+		var ss = Object.keys(results).sort(function(a, b){return b-a});
+		for(var s in ss){
+			var ts = Object.keys(results[s]).sort();
+			var l = [];
+			for(var t in ts)
+				l.push(results[s][t]);
+			console.log(l);
+		}
+	}
 
 }
 nextV();
