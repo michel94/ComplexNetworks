@@ -67,7 +67,7 @@ function run(nRuns, T, S, finished){
 	GraphGame.start();
 	GraphGame.stop = function(){
 		end = new Date().getTime();
-		//console.log( (end-start)/1000 );
+		console.log( (end-start)/1000 );
 		
 		run(nRuns-1, T, S, finished);
 	};
@@ -87,8 +87,8 @@ for(var s=-1; s<=1; s+=0.1)
 results = {};
 function nextV(){
 	var v = points.shift()
-	if 
-	run(1, v[0], v[1], nextV);
+	if(v)
+		run(1, v[0], v[1], nextV);
 
 }
 nextV();
