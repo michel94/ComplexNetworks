@@ -39,13 +39,13 @@
 			// Graph Game
 			var SIZE = 500;
 			var N_ITERATIONS = 500;
-			//var graph = GraphGame.ABModel(size);
-			//var graph = GraphGame.DuplicationModel(size, 0.2);
-			graph = GraphGame.MinimalModel(SIZE);
+			var graph1 = GraphGame.ABModel(SIZE, 2);
+			var graph2 = GraphGame.DuplicationModel(SIZE, 0.2);
+			var graph3 = GraphGame.MinimalModel(SIZE);
 
 			//GraphGame.setup('', Player, 20);
 
-			var initialized = false;
+			/*var initialized = false;
 			syncInit = function(){
 				if(!initialized){
 					console.log('ready');
@@ -68,6 +68,7 @@
 					
 					var p = C / (C+D);
 					results[[T, S]] = p;
+					console.log(T + ", " + S + ": " + p)
 
 					finished();
 					return;
@@ -93,7 +94,7 @@
 						}
 					}
 				)
-				GraphGame.setup('', Player, 10000);
+				GraphGame.setup(document.getElementById('netDiv'), Player, 10000);
 				GraphGame.randomInit(graph, SIZE, ['C', 'D'], function(){} );
 				GraphGame.maxIterations = N_ITERATIONS;
 
@@ -101,15 +102,10 @@
 				GraphGame.stop = function(){
 					end = new Date().getTime();
 					console.log( (end-start)/1000 );
-
+					
 					run(nRuns-1, T, S, finished);
 				};
 			}
-
-			//while(runs-- > 0){
-				/*setTimeout(function(){
-				}, 1);*/
-			//}
 			var points = []
 
 			for(var s=-1; s<=1; s+=0.1)
@@ -120,14 +116,14 @@
 			results = {};
 			function nextV(){
 				var v = points.shift()
-				run(1, v[0], v[1], nextV);
+				run(1, v[0], v[1], function(){});
+
 			}
-			nextV();
+			nextV();*/
 
 			//run(1, 1.5, 0.75, finished);
 			
 			
-			//GraphGame.setup(document.getElementById('netDiv'), Player, 40);
 			
 		</script>
 	</body>

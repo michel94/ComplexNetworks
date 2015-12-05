@@ -341,7 +341,7 @@ GraphGame = new (function(){
 
 }) ();
 
-GraphGame.ABModel = function(size){
+GraphGame.ABModel = function(size, m){
 	if(size < 2)
 		throw 'size must be greater than 2!'
 
@@ -352,16 +352,21 @@ GraphGame.ABModel = function(size){
 	graph[0] = [1];
 	graph[1] = [0];
 
+
 	var degSum = 2;
 	for(var i=2; i<size; i++){
 		var probSum = 0;
 		var randNum = Math.random();
 
-		for(var j=0; j<i; j++){
-			probSum += graph[j].length / degSum;
-			if(randNum < probSum){
-				graph[i].push(j);
-				graph[j].push(i);
+		conn = []
+		while(conn.length() < m && conn.length < i){
+			for(var j=0; j<i; j++){
+				probSum += graph[j].length / degSum;
+				if(randNum < probSum){
+					conn.push(j);
+					graph[i].push(j);
+					graph[j].push(i);
+				}
 			}
 		}
 		degSum += graph[i].length * 2;

@@ -1,13 +1,8 @@
+var fs = require('fs');
 
 var GraphGame = require('./game').GraphGame;
 var PlayerFactory = require('./game').PlayerFactory;
 
-var SIZE = 1000;
-var N_ITERATIONS = 500;
-
-//var graph = GraphGame.ABModel(size);
-//var graph = GraphGame.DuplicationModel(size, 0.2);
-// Graph Game
 var SIZE = 500;
 var N_ITERATIONS = 500;
 //var graph = GraphGame.ABModel(size);
@@ -39,6 +34,7 @@ function run(nRuns, T, S, finished){
 		
 		var p = C / (C+D);
 		results[[T, S]] = p;
+		console.log(T + ", " + S + ": " + p)
 
 		finished();
 		return;
@@ -71,8 +67,8 @@ function run(nRuns, T, S, finished){
 	GraphGame.start();
 	GraphGame.stop = function(){
 		end = new Date().getTime();
-		console.log( (end-start)/1000 );
-
+		//console.log( (end-start)/1000 );
+		
 		run(nRuns-1, T, S, finished);
 	};
 }
@@ -91,6 +87,8 @@ for(var s=-1; s<=1; s+=0.1)
 results = {};
 function nextV(){
 	var v = points.shift()
+	if 
 	run(1, v[0], v[1], nextV);
+
 }
 nextV();
