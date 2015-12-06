@@ -325,7 +325,6 @@ GraphGame = new (function(){
 		}else{
 			while(g.iterationCount < g.maxIterations){
 				g.iterationCount++;
-				console.log(g.iterationCount)
 				g.iteration();
 			}
 			if(g.stop){
