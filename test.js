@@ -6,9 +6,10 @@ var PlayerFactory = require('./game').PlayerFactory;
 var SIZE = 600;
 var N_ITERATIONS = 600;
 var N_RUNS = 5;
-//var graph = GraphGame.ABModel(size);
+
+var graph = GraphGame.ABModel(SIZE);
 //var graph = GraphGame.DuplicationModel(size, 0.2);
-graph = GraphGame.MinimalModel(SIZE);
+//graph = GraphGame.MinimalModel(SIZE);
 
 //GraphGame.setup('', Player, 20);
 

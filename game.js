@@ -365,23 +365,34 @@ GraphGame.ABModel = function(size, m){
 
 	var degSum = 2;
 	for(var i=2; i<size; i++){
-		var probSum = 0;
-		var randNum = Math.random();
+		graph[i] = [];
 
-		conn = []
-		while(conn.length() < m && conn.length < i){
-			for(var j=0; j<i; j++){
-				probSum += graph[j].length / degSum;
-				if(randNum < probSum){
-					conn.push(j);
-					graph[i].push(j);
-					graph[j].push(i);
+		var l=[], subSum = 0;
+		for(var j=0; j<i; j++)
+			l.push(j);
+
+		for(var c=0; c<m; c++) {
+			var probSum = 0;
+			var randNum = Math.random() * (1 - subSum);
+
+			for(var j=0; j < l.length; j++){
+				probSum += graph[l[j]].length / degSum;
+				if(randNum <= probSum){
+					graph[i].push(l[j]);
+					subSum += graph[l[j]].length / degSum;
+					l.splice(j, 1);
+					break;
 				}
 			}
+			
 		}
+		for(var j in graph[i]){
+			graph[graph[i][j]].push(i);
+		}
+
 		degSum += graph[i].length * 2;
 	}
-
+	
 	return graph;
 }
 
@@ -428,6 +439,8 @@ GraphGame.MinimalModel = function(size){
 
 		var node1 = edges[r][0], node2 = edges[r][1];
 		graph[i] = [node1, node2];
+		graph[node1].push(i);
+		graph[node2].push(i);
 		edges.push([node1, i]);
 		edges.push([node2, i]);
 	}
@@ -450,6 +463,34 @@ PlayerFactory = function(elements, fplay){
 	}
 
 };
+
+avgDegree = function(l){
+	var s = 0
+	for(var i=0; i<l.length; i++) s += l[i].length;
+	return s / l.length;
+}
+
+function degreeDistribution(graph){
+	max_degree = (function(l){
+		var m = null;
+		for(var i in l){
+			if(m == null || l[i].length > m.length){
+				m = l[i];
+			}
+		}
+
+		return m.length;
+	}) (graph);
+
+	deg_dist = new Array(max_degree+1);
+	for(var i = 0; i < max_degree+1; i++)
+		deg_dist[i] = 0;
+	
+	for(var i in graph)
+		deg_dist[graph[i].length]++;
+
+	return deg_dist
+}
 
 
 module.exports = {
