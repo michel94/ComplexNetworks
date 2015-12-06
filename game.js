@@ -365,22 +365,36 @@ GraphGame.ABModel = function(size, m){
 
 	var degSum = 2;
 	for(var i=2; i<size; i++){
-		var probSum = 0;
-		var randNum = Math.random();
+		graph[i] = [];
 
-		conn = []
-		while(conn.length() < m && conn.length < i){
-			for(var j=0; j<i; j++){
-				probSum += graph[j].length / degSum;
-				if(randNum < probSum){
-					conn.push(j);
-					graph[i].push(j);
-					graph[j].push(i);
+		var l=[], subSum = 0;
+		for(var j=0; j<i; j++)
+			l.push(j);
+
+		for(var c=0; c<m; c++) {
+			var probSum = 0;
+			var randNum = Math.random() * (1 - subSum);
+
+			for(var j=0; j < l.length; j++){
+				probSum += graph[l[j]].length / degSum;
+				if(randNum <= probSum){
+					graph[i].push(l[j]);
+					subSum += graph[l[j]].length / degSum;
+					l.splice(j, 1);
+					break;
 				}
 			}
+			
 		}
+		for(var j in graph[i]){
+			graph[graph[i][j]].push(i);
+		}
+
+		console.log(graph[i].length);
+
 		degSum += graph[i].length * 2;
 	}
+	console.log(degSum)
 
 	return graph;
 }

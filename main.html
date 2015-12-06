@@ -37,11 +37,60 @@
 			Game.start();*/
 			
 			// Graph Game
-			var SIZE = 500;
+			var SIZE = 100;
 			var N_ITERATIONS = 500;
 			var graph1 = GraphGame.ABModel(SIZE, 2);
 			var graph2 = GraphGame.DuplicationModel(SIZE, 0.2);
 			var graph3 = GraphGame.MinimalModel(SIZE);
+
+			var Player = new PlayerFactory(
+				{colors: {'C': '#0000FF', 'D': '#FF0000'}},
+				function(other){
+					var R = 1;
+					var t = T;
+					var s = S;
+					var P = 0;
+					if(this.type == 'C'){
+						if(other.type == 'C')
+							return R;
+						else
+							return s;
+					}else{
+						if(other.type == 'C')
+							return t;
+						else
+							return P;
+					}
+				}
+			)
+
+			GraphGame.setup(document.getElementById('netDiv'), Player, 4);
+			GraphGame.randomInit(graph1, SIZE, ['C', 'D'], function(){} );
+			GraphGame.maxIterations = N_ITERATIONS;
+			console.log(graph1)
+
+			max_degree = (function(l){
+					var m = null;
+					for(var i in l){
+						if(m == null || l[i].length > m.length){
+							m = l[i];
+						}
+					}
+
+					return m.length;
+				}) (graph1);
+
+			deg_dist = new Array(max_degree+1);
+			for(var i = 0; i < max_degree+1; i++)
+				deg_dist[i] = 0;
+			sum = function(l){
+				var s = 0
+				for(var i=0; i<l.length; i++) s+= l[i].length;
+				return s;
+			}
+			for(var i in graph1)
+				deg_dist[graph1[i].length]++;
+			
 
 			//GraphGame.setup('', Player, 20);
 
@@ -74,26 +123,6 @@
 					return;
 				}
 
-				var Player = new PlayerFactory(
-					{colors: {'C': '#0000FF', 'D': '#FF0000'}},
-					function(other){
-						var R = 1;
-						var t = T;
-						var s = S;
-						var P = 0;
-						if(this.type == 'C'){
-							if(other.type == 'C')
-								return R;
-							else
-								return s;
-						}else{
-							if(other.type == 'C')
-								return t;
-							else
-								return P;
-						}
-					}
-				)
 				GraphGame.setup(document.getElementById('netDiv'), Player, 10000);
 				GraphGame.randomInit(graph, SIZE, ['C', 'D'], function(){} );
 				GraphGame.maxIterations = N_ITERATIONS;
