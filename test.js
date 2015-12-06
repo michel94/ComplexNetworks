@@ -6,12 +6,9 @@ var PlayerFactory = require('./game').PlayerFactory;
 var SIZE = 600;
 var N_ITERATIONS = 600;
 var N_RUNS = 5;
-
-var graph = GraphGame.ABModel(SIZE);
-//var graph = GraphGame.DuplicationModel(size, 0.2);
-//graph = GraphGame.MinimalModel(SIZE);
-
-//GraphGame.setup('', Player, 20);
+var graph = GraphGame.ABModel(SIZE, 2);
+//var graph2 = GraphGame.DuplicationModel(SIZE, 0.27);
+//var graph3 = GraphGame.MinimalModel(SIZE);
 
 var initialized = false;
 syncInit = function(){
@@ -64,7 +61,7 @@ function run(nRuns, T, S, finished, sum){
 
 	GraphGame.stop = function(){
 		end = new Date().getTime();
-		console.log( (end-start)/1000 );
+		//console.log( (end-start)/1000 );
 		
 		var C = 0;
 		if('C' in GraphGame.counts)
