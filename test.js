@@ -63,7 +63,7 @@ function run(nRuns, T, S, finished, sum){
 
 	GraphGame.stop = function(){
 		end = new Date().getTime();
-		console.log( (end-start)/1000 );
+		//console.log( (end-start)/1000 );
 		
 		var C = 0;
 		if('C' in GraphGame.counts)
