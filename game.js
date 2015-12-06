@@ -407,7 +407,7 @@ GraphGame.DuplicationModel = function(size, p){
 	graph[0] = [];
 	
 	for(var i=1; i<size; i++){
-		var c = Math.floor(Math.random() * (i));
+		var c = Math.floor(Math.random() * i);
 		graph[i].push(c);
 		for(var j=0; j<graph[c].length; j++){
 			if(Math.random() < p){

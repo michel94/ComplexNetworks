@@ -6,9 +6,13 @@ var PlayerFactory = require('./game').PlayerFactory;
 var SIZE = 600;
 var N_ITERATIONS = 600;
 var N_RUNS = 5;
-var graph = GraphGame.ABModel(SIZE, 2);
-//var graph2 = GraphGame.DuplicationModel(SIZE, 0.27);
+var graph2 = GraphGame.ABModel(SIZE, 2);
+var graph = GraphGame.DuplicationModel(SIZE, 0.27);
 //var graph3 = GraphGame.MinimalModel(SIZE);
+while(avgDegree(graph) - avgDegree(graph2) > 0.01 || avgDegree(graph) - avgDegree(graph2) < -0.01){
+	graph = GraphGame.DuplicationModel(SIZE, 0.27);
+}
+
 
 var initialized = false;
 syncInit = function(){
