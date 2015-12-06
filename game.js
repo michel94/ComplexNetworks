@@ -263,8 +263,8 @@ GraphGame = new (function(){
 
 		for(var i=0; i<this.nodes.length; i++){
 			var sum = 0;
-			for(var j in graph[i]){
-				var v = graph[i][j];
+			for(var j in this.graph[i]){
+				var v = this.graph[i][j];
 				sum += this.nodes[i].play(this.nodes[v]);
 			}
 			count[i] = sum;
@@ -278,8 +278,8 @@ GraphGame = new (function(){
 			var sum = 0;
 
 
-			var ind = Math.floor(Math.random() * graph[i].length);
-			var node = graph[i][ind];
+			var ind = Math.floor(Math.random() * this.graph[i].length);
+			var node = this.graph[i][ind];
 			var prob = (count[node] - count[i]) / (function(l){
 				var m = 0;
 				for(var i in l)
