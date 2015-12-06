@@ -390,12 +390,9 @@ GraphGame.ABModel = function(size, m){
 			graph[graph[i][j]].push(i);
 		}
 
-		console.log(graph[i].length);
-
 		degSum += graph[i].length * 2;
 	}
-	console.log(degSum)
-
+	
 	return graph;
 }
 
@@ -442,6 +439,8 @@ GraphGame.MinimalModel = function(size){
 
 		var node1 = edges[r][0], node2 = edges[r][1];
 		graph[i] = [node1, node2];
+		graph[node1].push(i);
+		graph[node2].push(i);
 		edges.push([node1, i]);
 		edges.push([node2, i]);
 	}
@@ -464,6 +463,34 @@ PlayerFactory = function(elements, fplay){
 	}
 
 };
+
+avgDegree = function(l){
+	var s = 0
+	for(var i=0; i<l.length; i++) s += l[i].length;
+	return s / l.length;
+}
+
+function degreeDistribution(graph){
+	max_degree = (function(l){
+		var m = null;
+		for(var i in l){
+			if(m == null || l[i].length > m.length){
+				m = l[i];
+			}
+		}
+
+		return m.length;
+	}) (graph);
+
+	deg_dist = new Array(max_degree+1);
+	for(var i = 0; i < max_degree+1; i++)
+		deg_dist[i] = 0;
+	
+	for(var i in graph)
+		deg_dist[graph[i].length]++;
+
+	return deg_dist
+}
 
 
 module.exports = {
