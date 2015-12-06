@@ -3,9 +3,9 @@ var fs = require('fs');
 var GraphGame = require('./game').GraphGame;
 var PlayerFactory = require('./game').PlayerFactory;
 
-var SIZE = 500;
-var N_ITERATIONS = 500;
-var N_RUNS = 10;
+var SIZE = 600;
+var N_ITERATIONS = 600;
+var N_RUNS = 5;
 //var graph = GraphGame.ABModel(size);
 //var graph = GraphGame.DuplicationModel(size, 0.2);
 graph = GraphGame.MinimalModel(SIZE);
@@ -61,10 +61,9 @@ function run(nRuns, T, S, finished, sum){
 	GraphGame.randomInit(graph, SIZE, ['C', 'D'], function(){} );
 	GraphGame.maxIterations = N_ITERATIONS;
 
-	GraphGame.start();
 	GraphGame.stop = function(){
 		end = new Date().getTime();
-		//console.log( (end-start)/1000 );
+		console.log( (end-start)/1000 );
 		
 		var C = 0;
 		if('C' in GraphGame.counts)
@@ -77,8 +76,8 @@ function run(nRuns, T, S, finished, sum){
 		var p = C / (C+D);
 		
 		run(nRuns-1, T, S, finished, sum+p);
-
 	};
+	GraphGame.start(true);
 }
 
 //while(runs-- > 0){
@@ -86,7 +85,7 @@ function run(nRuns, T, S, finished, sum){
 	}, 1);*/
 //}
 var points = []
-var d = 40;
+var d = 20;
 
 for(var s=0; s<=d; s++) // -1, 1
 	for(var t=0; t<=d; t++) // 0, 2

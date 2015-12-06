@@ -307,20 +307,31 @@ GraphGame = new (function(){
 
 
 
-	this.start = function(){
+	this.start = function(runSync){
 		var g = this;
-		this.intervalId = setInterval(function(){
-			g.iterationCount++;
-			//if(g.iterationCount % 100 == 0)
-				//console.log(g.iterationCount);
-			
-			if(g.maxIterations != null && g.iterationCount >= g.maxIterations){
-				clearInterval(g.intervalId);
-				if(g.stop)
-					g.stop();
+		if(!runSync){
+			this.intervalId = setInterval(function(){
+				g.iterationCount++;
+				//if(g.iterationCount % 100 == 0)
+					//console.log(g.iterationCount);
+				
+				if(g.maxIterations != null && g.iterationCount >= g.maxIterations){
+					clearInterval(g.intervalId);
+					if(g.stop)
+						g.stop();
+				}
+				g.iteration();
+			}, 1000/g.fps);
+		}else{
+			while(g.iterationCount < g.maxIterations){
+				g.iterationCount++;
+				console.log(g.iterationCount)
+				g.iteration();
 			}
-			g.iteration();
-		}, 1000/g.fps);
+			if(g.stop){
+				g.stop();
+			}
+		}
 
 	}
 
