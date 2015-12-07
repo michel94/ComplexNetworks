@@ -3,16 +3,17 @@ var fs = require('fs');
 var GraphGame = require('./game').GraphGame;
 var PlayerFactory = require('./game').PlayerFactory;
 
-var SIZE = 200;
-var N_ITERATIONS = 100;
+var SIZE = 500;
+var N_ITERATIONS = 300;
 var N_RUNS = 5;
 //var graph2 = GraphGame.ABModel(SIZE, 2);
-//var graph = GraphGame.DuplicationModel(SIZE, 0.27);
 //var graph3 = GraphGame.MinimalModel(SIZE);
 /*while(avgDegree(graph) - avgDegree(graph2) > 0.01 || avgDegree(graph) - avgDegree(graph2) < -0.01){
 	graph = GraphGame.DuplicationModel(SIZE, 0.27);
 }*/
-var graph = GraphGame.Communities(SIZE, 8, 2, 0.95, 3);
+
+//var graph = GraphGame.Communities(SIZE, 8, 2, 0.95, 3);
+var graph = GraphGame.DuplicationModel(SIZE, 0.27);
 
 var initialized = false;
 syncInit = function(){
@@ -89,7 +90,7 @@ var d = 20;
 
 for(var s=0; s<=d; s++) // -1, 1
 	for(var t=0; t<=d; t++) // 0, 2
-		points.push([-1 + (t/d)*2, (s/d)*2]);
+		points.push([(t/d)*2, -1 + (s/d)*2]);
 
 
 results = {};
