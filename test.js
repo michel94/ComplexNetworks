@@ -6,14 +6,15 @@ var PlayerFactory = require('./game').PlayerFactory;
 var SIZE = 500;
 var N_ITERATIONS = 300;
 var N_RUNS = 5;
-//var graph2 = GraphGame.ABModel(SIZE, 2);
-//var graph3 = GraphGame.MinimalModel(SIZE);
-/*while(avgDegree(graph) - avgDegree(graph2) > 0.01 || avgDegree(graph) - avgDegree(graph2) < -0.01){
+var graph2 = GraphGame.ABModel(SIZE, 2);
+//var graph = GraphGame.MinimalModel(SIZE);
+var graph = GraphGame.DuplicationModel(SIZE, 0.27);
+while(avgDegree(graph) - avgDegree(graph2) > 0.01 || avgDegree(graph) - avgDegree(graph2) < -0.01){
 	graph = GraphGame.DuplicationModel(SIZE, 0.27);
-}*/
+}
 
 //var graph = GraphGame.Communities(SIZE, 8, 2, 0.95, 3);
-var graph = GraphGame.DuplicationModel(SIZE, 0.27);
+//var graph = GraphGame.DuplicationModel(SIZE, 0.27);
 
 var initialized = false;
 syncInit = function(){
