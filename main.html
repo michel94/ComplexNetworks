@@ -37,11 +37,14 @@
 			Game.start();*/
 			
 			// Graph Game
-			var SIZE = 600;
+			var SIZE = 200;
 			var N_ITERATIONS = 500;
-			var graph1 = GraphGame.ABModel(SIZE, 2);
+			/*var graph1 = GraphGame.ABModel(SIZE, 2);
 			var graph2 = GraphGame.DuplicationModel(SIZE, 0.27);
-			var graph3 = GraphGame.MinimalModel(SIZE);
+			var graph3 = GraphGame.MinimalModel(SIZE);*/
+			var graph = GraphGame.Communities(SIZE, 8, 2, 0.95, 3);
+			S = -1;
+			T = 2;
 
 			var Player = new PlayerFactory(
 				{colors: {'C': '#0000FF', 'D': '#FF0000'}},
@@ -63,14 +66,15 @@
 					}
 				}
 			)
-			console.log(avgDegree(graph1));
+			/*console.log(avgDegree(graph1));
 			console.log(avgDegree(graph2));
-			console.log(avgDegree(graph3));
+			console.log(avgDegree(graph3));*/
 
 			GraphGame.setup(document.getElementById('netDiv'), Player, 4);
-			GraphGame.randomInit(graph2, SIZE, ['C', 'D'], function(){} );
+			GraphGame.randomInit(graph, SIZE, ['C', 'D'], function(){} );
 			GraphGame.maxIterations = N_ITERATIONS;
-			
+			GraphGame.start(false);
+
 			//GraphGame.setup('', Player, 20);
 
 			/*var initialized = false;

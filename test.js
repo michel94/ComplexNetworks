@@ -3,16 +3,16 @@ var fs = require('fs');
 var GraphGame = require('./game').GraphGame;
 var PlayerFactory = require('./game').PlayerFactory;
 
-var SIZE = 600;
-var N_ITERATIONS = 600;
+var SIZE = 200;
+var N_ITERATIONS = 100;
 var N_RUNS = 5;
-var graph2 = GraphGame.ABModel(SIZE, 2);
-var graph = GraphGame.DuplicationModel(SIZE, 0.27);
+//var graph2 = GraphGame.ABModel(SIZE, 2);
+//var graph = GraphGame.DuplicationModel(SIZE, 0.27);
 //var graph3 = GraphGame.MinimalModel(SIZE);
-while(avgDegree(graph) - avgDegree(graph2) > 0.01 || avgDegree(graph) - avgDegree(graph2) < -0.01){
+/*while(avgDegree(graph) - avgDegree(graph2) > 0.01 || avgDegree(graph) - avgDegree(graph2) < -0.01){
 	graph = GraphGame.DuplicationModel(SIZE, 0.27);
-}
-
+}*/
+var graph = GraphGame.Communities(SIZE, 8, 2, 0.95, 3);
 
 var initialized = false;
 syncInit = function(){
@@ -29,8 +29,6 @@ function run(nRuns, T, S, finished, sum){
 	if(nRuns <= 0){
 		if(!results.hasOwnProperty(S) )
 			results[S] = {};
-		if(!results.hasOwnProperty(T) )
-			results[T] = {};
 		
 		results[S][T] = sum;
 		console.log(T + ", " + S + ": " + sum);
@@ -104,14 +102,25 @@ function nextV(){
 			for(var j in results[i])
 				results[i][j] /= N_RUNS;
 
-		var ss = Object.keys(results).sort(function(a, b){return b-a});
+		out = ""
+		out += "{";
+		var ss = Object.keys(results).sort();
 		for(var s in ss){
-			var ts = Object.keys(results[s]).sort();
+			var ts = Object.keys(results[ss[s]]).sort();
 			var l = [];
-			for(var t in ts)
-				l.push(results[s][t]);
-			console.log(l);
+			out += "{";
+			for(var t in ts){
+				l.push();
+				out += results[ss[s]][ts[t]];
+				if(t < ts.length-1)
+					out += ", ";
+			}
+			out += "}";
+			if(s < ss.length-1)
+				out += ", ";
 		}
+		out += "}";
+		console.log(out);
 	}
 
 }

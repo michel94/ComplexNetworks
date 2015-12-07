@@ -215,7 +215,7 @@ GraphGame = new (function(){
 			for(var i=0; i<this.nodes.length; i++)
 				tempNodes.push({
 					id: i, 
-					label: "", 
+					label: '',
 					font: {size:30},
 					color: {background: this.nodes[i].colors[this.nodes[i].type]}
 				});
@@ -424,7 +424,7 @@ GraphGame.DuplicationModel = function(size, p){
 
 GraphGame.MinimalModel = function(size){
 	if(size < 2)
-		throw 'size must be greater than 2!'
+		throw 'size must be greater than 2!';
 
 	var graph = new Array(size);
 	for(var i=0; i<size; i++)
@@ -446,6 +446,63 @@ GraphGame.MinimalModel = function(size){
 	}
 
 	return graph;
+}
+
+function randint(n){
+	return Math.floor(Math.random() * n);
+}
+
+function pickNode(communities, my_com, p){
+	if(Math.random() < p)
+		var c = my_com;
+	else{
+		var c = randint(communities.length-1);
+		if(c >= my_com)
+			c++;
+	}
+
+	var com = communities[c]
+
+	return com[randint(com.length)];
+}
+
+GraphGame.Communities = function(size, comm, m, p, I){ // number of nodes, number of communities, number of new links, probability of connecting inside the community, initial number of nodes per community
+	if(size < comm || size < 2 || comm < 2)
+		throw 'The number of communities must be smaller than the number of nodes!';
+
+	var graph = new Array(size);
+	var communities = new Array(comm);
+	for(var i=0; i<comm*I; i++){
+		graph[i] = []
+		/*if(i > 0){
+			graph[i].push(i-1);
+			graph[i-1].push(i);
+		}*/
+		if(communities[i%comm] == null)
+			communities[i%comm] = [];
+		communities[i%comm].push(i);
+	}
+
+	for(var i=comm*I; i<size; i++){
+		var my_com = randint(comm);
+		graph[i] = [];
+
+		for(var j=0; j<m; j++){
+			var node = pickNode(communities, my_com, p);
+			if(graph[i].indexOf(node) == -1){
+				graph[i].push(node);
+				graph[node].push(i);
+			}
+			else
+				j--;
+		}
+
+		communities[my_com].push(i);
+
+	}
+
+	return graph;
+
 }
 
 PlayerFactory = function(elements, fplay){
