@@ -6,12 +6,35 @@ var PlayerFactory = require('./game').PlayerFactory;
 var SIZE = 500;
 var N_ITERATIONS = 300;
 var N_RUNS = 5;
+
+var graph = null;
 var graph2 = GraphGame.ABModel(SIZE, 2);
-//var graph = GraphGame.MinimalModel(SIZE);
-var graph = GraphGame.DuplicationModel(SIZE, 0.27);
-while(avgDegree(graph) - avgDegree(graph2) > 0.01 || avgDegree(graph) - avgDegree(graph2) < -0.01){
-	graph = GraphGame.DuplicationModel(SIZE, 0.27);
+
+if(process.argv[2] != null){
+	arg = process.argv[2];
+	if(arg == "minimal"){
+		graph = GraphGame.MinimalModel(SIZE);
+	}else if(arg == 'AB'){
+		graph = graph2;
+	}else if(arg == 'duplcation'){
+		graph = GraphGame.DuplicationModel(SIZE, 0.27);
+		while(avgDegree(graph) - avgDegree(graph2) > 0.01 || avgDegree(graph) - avgDegree(graph2) < -0.01){
+			graph = GraphGame.DuplicationModel(SIZE, 0.27);
+		}
+	}else{
+		throw 'Error: No model specified';
+	}
+}else{
+	throw 'Error: No model specified';
 }
+
+var start = 0;
+if(process.argv[3] != null){
+	start = parseInt(process.argv[3])
+	console.log('Starting at', start)
+}
+
+//
 
 //var graph = GraphGame.Communities(SIZE, 8, 2, 0.95, 3);
 //var graph = GraphGame.DuplicationModel(SIZE, 0.27);
@@ -89,7 +112,7 @@ function run(nRuns, T, S, finished, sum){
 var points = []
 var d = 20;
 
-for(var s=0; s<=d; s++) // -1, 1
+for(var s=start; s<=d; s++) // -1, 1
 	for(var t=0; t<=d; t++) // 0, 2
 		points.push([(t/d)*2, -1 + (s/d)*2]);
 
