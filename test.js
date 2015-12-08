@@ -16,11 +16,13 @@ if(process.argv[2] != null){
 		graph = GraphGame.MinimalModel(SIZE);
 	}else if(arg == 'AB'){
 		graph = graph2;
-	}else if(arg == 'duplcation'){
+	}else if(arg == 'duplication'){
 		graph = GraphGame.DuplicationModel(SIZE, 0.27);
 		while(avgDegree(graph) - avgDegree(graph2) > 0.01 || avgDegree(graph) - avgDegree(graph2) < -0.01){
 			graph = GraphGame.DuplicationModel(SIZE, 0.27);
 		}
+	}else if(arg == 'communities'){
+		graph = GraphGame.Communities(SIZE, 8, 2, 0.95, 3);
 	}else{
 		throw 'Error: No model specified';
 	}
