@@ -3,9 +3,9 @@ var fs = require('fs');
 var GraphGame = require('./game').GraphGame;
 var PlayerFactory = require('./game').PlayerFactory;
 
-var SIZE = 500;
-var N_ITERATIONS = 300;
-var N_RUNS = 5;
+var SIZE = 600;
+var N_ITERATIONS = 500;
+var N_RUNS = 10;
 
 var graph = null;
 var graph2 = GraphGame.ABModel(SIZE, 2);
@@ -28,11 +28,18 @@ if(process.argv[2] != null){
 	throw 'Error: No model specified';
 }
 
+var d = 20;
 var start = 0;
+var end = d;
 if(process.argv[3] != null){
 	start = parseInt(process.argv[3])
 	console.log('Starting at', start)
 }
+if(process.argv[4] != null){
+	end = parseInt(process.argv[4])
+	console.log('Ending at', end)
+}
+
 
 //
 
@@ -110,9 +117,8 @@ function run(nRuns, T, S, finished, sum){
 	}, 1);*/
 //}
 var points = []
-var d = 20;
 
-for(var s=start; s<=d; s++) // -1, 1
+for(var s=start; s<=end; s++) // -1, 1
 	for(var t=0; t<=d; t++) // 0, 2
 		points.push([(t/d)*2, -1 + (s/d)*2]);
 

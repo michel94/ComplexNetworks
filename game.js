@@ -118,7 +118,7 @@ Game = new (function(){
 		var g = this;
 		setInterval(function(){
 			g.iteration();
-		}, 1/g.fps);
+		}, 1000/g.fps);
 	}
 
 	this.draw = function(newM) {

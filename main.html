@@ -30,22 +30,8 @@
 			// {'C': "#17097A", 'D': "#7A0933"}
 
 			// Lattice Game
-			
-			/*canvas = document.getElementById('myCanvas');
-			Game.setup(canvas, Player, 20);
-			Game.randomInit(176*2, 176*2, ['C', 'D']);
-			Game.start();*/
-			
-			// Graph Game
-			var SIZE = 200;
-			var N_ITERATIONS = 500;
-			/*var graph1 = GraphGame.ABModel(SIZE, 2);
-			var graph2 = GraphGame.DuplicationModel(SIZE, 0.27);
-			var graph3 = GraphGame.MinimalModel(SIZE);*/
-			//var graph = GraphGame.Communities(SIZE, 8, 2, 0.95, 3);
-			S = -1;
-			T = 2;
-
+			S = 0.5;
+			T = 1.45;
 			var Player = new PlayerFactory(
 				{colors: {'C': '#0000FF', 'D': '#FF0000'}},
 				function(other){
@@ -66,14 +52,29 @@
 					}
 				}
 			)
+			
+			canvas = document.getElementById('myCanvas');
+			Game.setup(canvas, Player, 1);
+			Game.randomInit(176, 176, ['C', 'D']);
+			Game.start();
+			
+			// Graph Game
+			var SIZE = 100;
+			var N_ITERATIONS = 500;
+			/*var graph1 = GraphGame.ABModel(SIZE, 2);
+			var graph2 = GraphGame.DuplicationModel(SIZE, 0.27);
+			var graph3 = GraphGame.MinimalModel(SIZE);*/
+			//var graph = GraphGame.Communities(SIZE, 8, 2, 0.95, 3);
+			var graph = GraphGame.MinimalModel(SIZE);
+
 			/*console.log(avgDegree(graph1));
 			console.log(avgDegree(graph2));
 			console.log(avgDegree(graph3));*/
 
-			GraphGame.setup(document.getElementById('netDiv'), Player, 4);
-			GraphGame.randomInit(graph, SIZE, ['C', 'D'], function(){} );
-			GraphGame.maxIterations = N_ITERATIONS;
-			GraphGame.start(false);
+			//GraphGame.setup(document.getElementById('netDiv'), Player, 4);
+			//GraphGame.randomInit(graph, SIZE, ['C', 'D'], function(){} );
+			//GraphGame.maxIterations = N_ITERATIONS;
+			//GraphGame.start(false);
 
 			//GraphGame.setup('', Player, 20);
 
