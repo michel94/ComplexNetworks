@@ -137,9 +137,9 @@ function nextV(){
 
 		out = ""
 		out += "{";
-		var ss = Object.keys(results).sort();
+		var ss = Object.keys(results).sort(function(a, b){return a-b});
 		for(var s in ss){
-			var ts = Object.keys(results[ss[s]]).sort();
+			var ts = Object.keys(results[ss[s]]).sort(function(a, b){return a-b});
 			var l = [];
 			out += "{";
 			for(var t in ts){
