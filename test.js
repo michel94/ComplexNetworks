@@ -3,7 +3,7 @@ var fs = require('fs');
 var GraphGame = require('./game').GraphGame;
 var PlayerFactory = require('./game').PlayerFactory;
 
-var SIZE = 400;
+var SIZE = 500;
 var N_ITERATIONS = 300;
 var N_RUNS = 5;
 
