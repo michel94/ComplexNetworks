@@ -15,23 +15,39 @@
 
 		<style type="text/css">
         #netDiv {
-            width: 704px;
-            height: 704px;
+            width: 650px;
+            height: 650px;
             border: 1px solid lightgray;
         }
     	</style>
 
 	</head>
 	<body>
-	<button action="start">Start</button>
-		<div id="netDiv"></div>
-		<canvas id="myCanvas" width="704" height="704"></canvas>
+	<div style="display: table-row">
+		
+		<div id="netDiv" style="display: table-cell"></div>
+		<!-- <canvas id="myCanvas" width="704" height="704"></canvas> -->
 		<script>
 			// {'C': "#17097A", 'D': "#7A0933"}
 
 			// Lattice Game
-			S = 0.5;
-			T = 1.45;
+			
+			/*canvas = document.getElementById('myCanvas');
+			Game.setup(canvas, Player, 20);
+			Game.randomInit(176*2, 176*2, ['C', 'D']);
+			Game.start();*/
+			
+			// Graph Game
+			var SIZE = 500;
+			var N_ITERATIONS = 500;
+			/*var graph1 = GraphGame.ABModel(SIZE, 2);
+			var graph2 = GraphGame.DuplicationModel(SIZE, 0.27);
+			var graph3 = GraphGame.MinimalModel(SIZE);*/
+			S = -1;
+			T = 2;
+			//var graph = GraphGame.MinimalModel(SIZE);
+			var graph = GraphGame.Communities(SIZE, 8, 2, 0.95, 3);
+
 			var Player = new PlayerFactory(
 				{colors: {'C': '#0000FF', 'D': '#FF0000'}},
 				function(other){
@@ -52,29 +68,14 @@
 					}
 				}
 			)
-			
-			canvas = document.getElementById('myCanvas');
-			Game.setup(canvas, Player, 1);
-			Game.randomInit(176, 176, ['C', 'D']);
-			Game.start();
-			
-			// Graph Game
-			var SIZE = 100;
-			var N_ITERATIONS = 500;
-			/*var graph1 = GraphGame.ABModel(SIZE, 2);
-			var graph2 = GraphGame.DuplicationModel(SIZE, 0.27);
-			var graph3 = GraphGame.MinimalModel(SIZE);*/
-			//var graph = GraphGame.Communities(SIZE, 8, 2, 0.95, 3);
-			var graph = GraphGame.MinimalModel(SIZE);
-
 			/*console.log(avgDegree(graph1));
 			console.log(avgDegree(graph2));
 			console.log(avgDegree(graph3));*/
 
-			//GraphGame.setup(document.getElementById('netDiv'), Player, 4);
-			//GraphGame.randomInit(graph, SIZE, ['C', 'D'], function(){} );
-			//GraphGame.maxIterations = N_ITERATIONS;
-			//GraphGame.start(false);
+			GraphGame.setup(document.getElementById('netDiv'), Player, 4);
+			GraphGame.randomInit(graph, SIZE, ['C', 'D'], function(){} );
+			GraphGame.maxIterations = N_ITERATIONS;
+			GraphGame.start(false);
 
 			//GraphGame.setup('', Player, 20);
 
@@ -139,6 +140,10 @@
 			
 			
 		</script>
+		<div style="display: table-cell">
+			<button action="start">Start</button>
+		</div>
+	</div>
 	</body>
 </html>
 

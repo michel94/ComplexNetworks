@@ -205,6 +205,14 @@ GraphGame = new (function(){
 		this.init(graph, nodes, callback)
 	}
 
+	this.randomize = function(l){
+		for(var i=0; i<this.nodes.length; i++){
+			var s = Math.floor(Math.random() * l.length);
+			this.nodes[i] = new this.Class(l[s]);
+		}
+		this.draw();
+	}
+
 	this.init = function(graph, nodes, callback){
 		this.graph = graph;
 		this.nodes = nodes;
@@ -309,6 +317,7 @@ GraphGame = new (function(){
 
 	this.start = function(runSync){
 		var g = this;
+		g.iterationCount = 0;
 		if(!runSync){
 			this.intervalId = setInterval(function(){
 				g.iterationCount++;
@@ -326,6 +335,8 @@ GraphGame = new (function(){
 			while(g.iterationCount < g.maxIterations){
 				g.iterationCount++;
 				g.iteration();
+				if(this.counts.length < 2)
+					break;
 			}
 			if(g.stop){
 				g.stop();
@@ -549,9 +560,11 @@ function degreeDistribution(graph){
 	return deg_dist
 }
 
+if(typeof module !== 'undefined'){
+	module.exports = {
+	  "PlayerFactory": PlayerFactory,
+	  "Game": Game,
+	  "GraphGame": GraphGame
+	};
+}
 
-module.exports = {
-  "PlayerFactory": PlayerFactory,
-  "Game": Game,
-  "GraphGame": GraphGame
-};
