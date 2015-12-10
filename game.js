@@ -236,7 +236,6 @@ GraphGame = new (function(){
 				for(var j in graph[i]){
 					var v = graph[i][j];
 					if (v < i){
-						console.log(i, v);
 						tempEdges.push({from: i, to: v});
 					}
 				}
@@ -427,7 +426,6 @@ GraphGame.DuplicationModel = function(size, p, m){
 		connections = [];
 		while(connections.length < m && connections.length < i){
 			var c = Math.floor(Math.random() * i);
-			console.log(c);
 			if(Math.random() < p || graph[i].length == 0){
 				connections.push(c);
 			}else{
