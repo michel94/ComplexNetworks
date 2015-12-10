@@ -17,9 +17,9 @@ if(process.argv[2] != null){
 	}else if(arg == 'AB'){
 		graph = graph2;
 	}else if(arg == 'duplication'){
-		graph = GraphGame.DuplicationModel(SIZE, 0.27);
+		graph = GraphGame.DuplicationModel(SIZE, 0.65);
 		while(avgDegree(graph) - avgDegree(graph2) > 0.01 || avgDegree(graph) - avgDegree(graph2) < -0.01){
-			graph = GraphGame.DuplicationModel(SIZE, 0.27);
+			graph = GraphGame.DuplicationModel(SIZE, 0.65);
 		}
 	}else if(arg == 'communities'){
 		graph = GraphGame.Communities(SIZE, 8, 2, 0.95, 3);
@@ -46,7 +46,7 @@ if(process.argv[4] != null){
 //
 
 //var graph = GraphGame.Communities(SIZE, 8, 2, 0.95, 3);
-//var graph = GraphGame.DuplicationModel(SIZE, 0.27);
+//var graph = GraphGame.DuplicationModel(SIZE, 0.7);
 
 var initialized = false;
 syncInit = function(){

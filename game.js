@@ -235,8 +235,10 @@ GraphGame = new (function(){
 			for(var i=0; i<this.nodes.length; i++)
 				for(var j in graph[i]){
 					var v = graph[i][j];
-					if (v < i)
+					if (v < i){
+						console.log(i, v);
 						tempEdges.push({from: i, to: v});
+					}
 				}
 
 			
@@ -419,15 +421,17 @@ GraphGame.DuplicationModel = function(size, p){
 	
 	for(var i=1; i<size; i++){
 		var c = Math.floor(Math.random() * i);
-		graph[i].push(c);
 		for(var j=0; j<graph[c].length; j++){
-			if(Math.random() < p){
+			if(Math.random() < 1 - p){
 				var neigh = graph[c][j];
 				graph[i].push(neigh);
 				graph[neigh].push(i);
 			}
 		}
-		graph[c].push(i);
+		if(Math.random() < p || graph[i].length == 0){
+			graph[i].push(c);
+			graph[c].push(i);
+		}
 	}
 	
 	return graph;
