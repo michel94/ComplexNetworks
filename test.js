@@ -3,9 +3,9 @@ var fs = require('fs');
 var GraphGame = require('./game').GraphGame;
 var PlayerFactory = require('./game').PlayerFactory;
 
-var SIZE = 400;
-var N_ITERATIONS = 300;
-var N_RUNS = 5;
+var SIZE = 800;
+var N_ITERATIONS = 500;
+var N_RUNS = 10;
 
 var graph = null;
 var graph2 = GraphGame.ABModel(SIZE, 2);
