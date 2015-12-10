@@ -3,9 +3,9 @@ var fs = require('fs');
 var GraphGame = require('./game').GraphGame;
 var PlayerFactory = require('./game').PlayerFactory;
 
-var SIZE = 800;
-var N_ITERATIONS = 500;
-var N_RUNS = 10;
+var SIZE = 400;
+var N_ITERATIONS = 300;
+var N_RUNS = 5;
 
 var graph = null;
 var graph2 = GraphGame.ABModel(SIZE, 2);
@@ -17,9 +17,9 @@ if(process.argv[2] != null){
 	}else if(arg == 'AB'){
 		graph = graph2;
 	}else if(arg == 'duplication'){
-		graph = GraphGame.DuplicationModel(SIZE, 0.65);
+		graph = GraphGame.DuplicationModel(SIZE, 0.5, 2);
 		while(avgDegree(graph) - avgDegree(graph2) > 0.01 || avgDegree(graph) - avgDegree(graph2) < -0.01){
-			graph = GraphGame.DuplicationModel(SIZE, 0.65);
+			graph = GraphGame.DuplicationModel(SIZE, 0.5, 2);
 		}
 	}else if(arg == 'communities'){
 		graph = GraphGame.Communities(SIZE, 8, 2, 0.95, 3);

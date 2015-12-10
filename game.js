@@ -411,29 +411,37 @@ GraphGame.ABModel = function(size, m){
 	return graph;
 }
 
-GraphGame.DuplicationModel = function(size, p){
-	if(size < 1)
-		throw 'size must be greater than 1!'
+GraphGame.DuplicationModel = function(size, p, m){
+	if(size < 2)
+		throw 'size must be greater than 2!'
 	
 	var	graph = new Array(size);
 	for(var i=0; i<size; i++)
 		graph[i] = [];
 	
-	graph[0] = [];
+	graph[0] = [1];
+	graph[1] = [0];
 	
-	for(var i=1; i<size; i++){
-		var c = Math.floor(Math.random() * i);
-		for(var j=0; j<graph[c].length; j++){
-			if(Math.random() < 1 - p){
-				var neigh = graph[c][j];
-				graph[i].push(neigh);
-				graph[neigh].push(i);
+	for(var i=2; i<size; i++){
+		
+		connections = [];
+		while(connections.length < m && connections.length < i){
+			var c = Math.floor(Math.random() * i);
+			console.log(c);
+			if(Math.random() < p || graph[i].length == 0){
+				connections.push(c);
+			}else{
+				var neigh = graph[c][ randint(graph[c].length) ];
+				if(connections.indexOf(neigh) == -1)
+					connections.push(neigh);
 			}
 		}
-		if(Math.random() < p || graph[i].length == 0){
-			graph[i].push(c);
-			graph[c].push(i);
+
+		for(var j=0; j<connections.length; j++){
+			graph[i].push(connections[j]);
+			graph[connections[j]].push(i);
 		}
+
 	}
 	
 	return graph;
