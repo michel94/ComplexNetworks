@@ -284,19 +284,21 @@ GraphGame = new (function(){
 
 		var tempNodes = Array(this.nodes.length);
 
-		for(var i=0; i<this.nodes.length; i++){
-			var sum = 0;
-
-
-			var ind = Math.floor(Math.random() * this.graph[i].length);
-			var node = this.graph[i][ind];
-			var prob = (count[node] - count[i]) / (function(l){
+		var maxFit = (function(l){
 				var m = 0;
 				for(var i in l)
 					if(l[i] > m)
 						m = count[i];
 				return m;
 			})(count);
+
+		for(var i=0; i<this.nodes.length; i++){
+			var sum = 0;
+
+
+			var ind = Math.floor(Math.random() * this.graph[i].length);
+			var node = this.graph[i][ind];
+			var prob = (count[node] - count[i]) / maxFit;
 
 			if(Math.random() < prob)
 				tempNodes[i] = this.nodes[ind];

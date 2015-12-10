@@ -72,23 +72,9 @@ function run(nRuns, T, S, finished, sum){
 	}
 
 	var Player = new PlayerFactory(
-		{colors: {'C': '#0000FF', 'D': '#FF0000'}},
+		{colors: {'C': '#0000FF', 'D': '#FF0000'}, vars: {'C': {'C': 1, 'D': S}, 'D': {'C': T, 'D': 0}} },
 		function(other){
-			var R = 1;
-			var t = T;
-			var s = S;
-			var P = 0;
-			if(this.type == 'C'){
-				if(other.type == 'C')
-					return R;
-				else
-					return s;
-			}else{
-				if(other.type == 'C')
-					return t;
-				else
-					return P;
-			}
+			return this.vars[this.type][other.type];
 		}
 	)
 	GraphGame.setup('', Player, 10000);
