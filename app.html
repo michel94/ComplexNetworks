@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<link rel="stylesheet" href="style.css">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+		<script type="text/javascript" src="visjs/vis.min.js"></script>
+		<script type="text/javascript" src="game.js"></script>
+    	<link href="visjs/vis.min.css" rel="stylesheet" type="text/css" />
+		
+		<title> Evolutionary Games </title>
+		<style>
+			body {
+				margin: 0px;
+				padding: 0px;
+			}
+		</style>
+
+		<style type="text/css">
+        #netDiv {
+            border: 1px solid black;
+            min-height: 600px;
+            height: 600px;
+        }
+    	</style>
+    	<script>
+    		Player = new PlayerFactory(
+				{colors: {'C': '#0000FF', 'D': '#FF0000'}},
+				function(other){
+					var R = 1;
+					var t = T;
+					var s = S;
+					var P = 0;
+					if(this.type == 'C'){
+						if(other.type == 'C')
+							return R;
+						else
+							return s;
+					}else{
+						if(other.type == 'C')
+							return t;
+						else
+							return P;
+					}
+				}
+			)
+			graph = null;
+			N_ITERATIONS = 1000;
+
+			function generate(){
+				var model = $('#model').val();
+				var size = $('#size').val();
+				var T = parseInt($('#T').val());
+				var S = parseInt($('#S').val());
+
+				if(model == 'AB')
+					graph = GraphGame.ABModel(size, 2);
+				else if(model == 'duplication')
+					graph = GraphGame.DuplicationModel(size, 0.5, 2);
+				else if(model == 'minimal')
+					graph = GraphGame.MinimalModel(size);
+				else if(model == 'communities')
+					graph = GraphGame.Communities(size, 8, 2, 0.9, 3);
+				else
+					return
+
+				if(typeof GraphGame.intervalId !== 'undefined')
+					clearInterval(GraphGame.intervalId);
+
+				Player = new PlayerFactory(
+					{colors: {'C': '#0000FF', 'D': '#FF0000'}, vars: {'C': {'C': 1, 'D': S}, 'D': {'C': T, 'D': 0}} },
+					function(other){
+						return this.vars[this.type][other.type];
+					}
+				)
+				GraphGame.Class = Player;
+
+				GraphGame.randomInit(graph, size, ['C'], function(){} );
+			}
+			function start(){
+				if(graph == null)
+					generate();
+
+				if(typeof GraphGame.intervalId !== 'undefined')
+					clearInterval(GraphGame.intervalId);
+
+				GraphGame.randomize(['C', 'D']);
+				GraphGame.maxIterations = N_ITERATIONS;
+				GraphGame.start(false);
+			}
+			
+		</script>
+	</head>
+	<body>
+	<h1> Evolutionary Games on Random Networks </h1>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-6"> 
+				<div id="netDiv"></div>
+				<script type="text/javascript">
+					GraphGame.setup(document.getElementById('netDiv'), Player, 10);
+				</script>
+			</div>
+			<div class="col-xs-6 panel panel-default pad">
+				<div class="panel-body">
+					Network model:
+					<select id="model">
+						<option value="AB"> Albert-Barabasi Model </option>
+						<option value="minimal"> Minimal Model </option>
+						<option value="duplication"> Copying Model </option>
+						<option value="communities"> Communities Model </option>
+					</select>
+					<p> Network size: <input id="size" type="text"> </input> </p>
+					<p> Game parameters </p>
+					<p>
+					S: <input id="S" type="text"> </input>
+					T: <input id="T" type="text"> </input>
+					</p>
+					<p> <button class="btn btn-primary" onclick="generate()"> Generate Model </button> 
+					<button class="btn btn-success" onclick="start()">Start</button> </p>
+				</div>
+			</div>
+	</body>
+</html>
+
