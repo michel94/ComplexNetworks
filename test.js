@@ -3,9 +3,9 @@ var fs = require('fs');
 var GraphGame = require('./game').GraphGame;
 var PlayerFactory = require('./game').PlayerFactory;
 
-var SIZE = 400;
-var N_ITERATIONS = 300;
-var N_RUNS = 5;
+var SIZE = 1000;
+var N_ITERATIONS = 1000;
+var N_RUNS = 10;
 
 var graph = null;
 var graph2 = GraphGame.ABModel(SIZE, 2);
@@ -114,8 +114,11 @@ for(var s=start; s<=end; s++) // -1, 1
 results = {};
 function nextV(){
 	var v = points.shift()
-	if(v)
-		run(N_RUNS, v[0], v[1], nextV, 0);
+	if(v){
+		setTimeout( function() {
+			run(N_RUNS, v[0], v[1], nextV, 0);
+		}, 0);
+	}
 	else{
 		for(var i in results)
 			for(var j in results[i])
